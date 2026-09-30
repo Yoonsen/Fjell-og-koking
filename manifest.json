@@ -1,0 +1,17 @@
+{
+  "name": "TermoFisk OS",
+  "short_name": "TermoFisk",
+  "description": "Fjell-fysikk og Arkimedes for skånsom fiske-koking på vidda.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    }
+  ]
+}
