@@ -33,9 +33,12 @@
             <button id="btn-gps" class="text-sm bg-blue-600 hover:bg-blue-500 px-3 py-1 rounded-full transition">Hent GPS</button>
         </h2>
         <div class="grid grid-cols-2 gap-4 mt-4">
-            <div class="bg-slate-900 p-3 rounded-lg text-center">
-                <div class="text-slate-400 text-xs uppercase tracking-wide">Høyde over havet</div>
-                <div class="text-2xl font-bold" id="alt-display">0 <span class="text-sm text-slate-500 font-normal">m</span></div>
+            <div class="bg-slate-900 p-3 rounded-lg text-center flex flex-col justify-center items-center">
+                <div class="text-slate-400 text-xs uppercase tracking-wide mb-1">Høyde over havet</div>
+                <div class="flex items-baseline">
+                    <input type="number" id="input-alt" value="0" min="0" max="9000" class="bg-transparent text-2xl font-bold text-white w-16 text-center focus:outline-none border-b-2 border-slate-600 focus:border-blue-400 transition appearance-none">
+                    <span class="text-sm text-slate-500 font-normal ml-1">m</span>
+                </div>
             </div>
             <div class="bg-slate-900 p-3 rounded-lg text-center">
                 <div class="text-slate-400 text-xs uppercase tracking-wide">Lokalt Kokepunkt</div>

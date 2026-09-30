@@ -7,7 +7,7 @@ let mass = 2.0; // kg
 let selectedThickness = 1.5; // cm
 
 // Elements
-const altDisplay = document.getElementById('alt-display');
+const inputAlt = document.getElementById('input-alt');
 const boilDisplay = document.getElementById('boil-display');
 const btnGps = document.getElementById('btn-gps');
 const gpsStatus = document.getElementById('gps-status');
@@ -27,7 +27,6 @@ function updatePhysics() {
     // A: Atmosfærisk Kokepunkt-Kalkulator
     // Hver 300. meter reduserer kokepunktet med ca 1 °C
     boilDisplay.innerText = boilingPoint.toFixed(1) + ' °C';
-    altDisplay.innerHTML = `${Math.round(altitude)} <span class="text-sm text-slate-500 font-normal">m</span>`;
 
     // B: Arkimedes' Massemåler
     vStart = parseFloat(sliderStart.value);
@@ -64,6 +63,13 @@ function updatePhysics() {
 }
 
 // Event Listeners
+inputAlt.addEventListener('input', () => {
+    altitude = parseFloat(inputAlt.value) || 0;
+    boilingPoint = 100.0 - (altitude / 300.0);
+    gpsStatus.innerText = "Høyde satt manuelt.";
+    updatePhysics();
+});
+
 sliderStart.addEventListener('input', updatePhysics);
 sliderEnd.addEventListener('input', updatePhysics);
 
@@ -99,6 +105,7 @@ btnGps.addEventListener('click', () => {
                 
                 altitude = currentAlt;
                 boilingPoint = 100.0 - (altitude / 300.0);
+                inputAlt.value = Math.round(altitude);
                 
                 btnGps.innerText = "Oppdatert";
                 btnGps.classList.remove('bg-blue-600');
