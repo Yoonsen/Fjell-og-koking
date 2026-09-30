@@ -5,6 +5,8 @@ let vStart = 5.0;
 let vEnd = 7.0;
 let mass = 2.0; // kg
 let selectedThickness = 1.5; // cm
+let currentTotalTime = 12.0;
+let countdownInterval;
 
 // Elements
 const inputAlt = document.getElementById('input-alt');
@@ -21,6 +23,12 @@ const massDisplay = document.getElementById('mass-display');
 const thicknessBtns = document.querySelectorAll('.thickness-btn');
 const timeDisplay = document.getElementById('time-display');
 const btnCook = document.getElementById('btn-cook');
+
+const timerOverlay = document.getElementById('timer-overlay');
+const timerTitle = document.getElementById('timer-title');
+const timerTargetInfo = document.getElementById('timer-target-info');
+const countdownDisplay = document.getElementById('countdown-display');
+const btnCancelTimer = document.getElementById('btn-cancel-timer');
 
 // Logic
 function updatePhysics() {
@@ -59,6 +67,7 @@ function updatePhysics() {
     const massPenalty = mass * 0.5; // 30 sekunder ekstra per kg fisk
 
     const totalTime = (baseTime * altFactor) + massPenalty;
+    currentTotalTime = totalTime;
     timeDisplay.innerText = totalTime.toFixed(1);
 }
 
@@ -135,9 +144,41 @@ btnGps.addEventListener('click', () => {
 });
 
 btnCook.addEventListener('click', () => {
-    btnCook.innerHTML = `KLOKKA TIKKER! (Trekk i ${timeDisplay.innerText} min)`;
-    btnCook.classList.remove('bg-red-600', 'hover:bg-red-500');
-    btnCook.classList.add('bg-emerald-600', 'hover:bg-emerald-500', 'animate-pulse');
+    // Show overlay
+    timerOverlay.classList.remove('hidden');
+    setTimeout(() => timerOverlay.classList.remove('opacity-0'), 10);
+    
+    // Reset styling if it was completed earlier
+    timerTitle.innerText = "TREKKER FISK";
+    timerTitle.classList.remove('text-red-400', 'animate-pulse');
+    timerTitle.classList.add('text-blue-400');
+    
+    timerTargetInfo.innerText = `Beregnet tid: ${currentTotalTime.toFixed(1)} minutter`;
+    
+    const endTime = Date.now() + currentTotalTime * 60 * 1000;
+    
+    clearInterval(countdownInterval);
+    countdownInterval = setInterval(() => {
+        const remaining = endTime - Date.now();
+        if (remaining <= 0) {
+            clearInterval(countdownInterval);
+            countdownDisplay.innerText = "00:00";
+            timerTitle.innerText = "FISKEN ER KLAR!";
+            timerTitle.classList.remove('text-blue-400');
+            timerTitle.classList.add('text-red-400', 'animate-pulse');
+        } else {
+            const totalSeconds = Math.floor(remaining / 1000);
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            countdownDisplay.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+    }, 200);
+});
+
+btnCancelTimer.addEventListener('click', () => {
+    clearInterval(countdownInterval);
+    timerOverlay.classList.add('opacity-0');
+    setTimeout(() => timerOverlay.classList.add('hidden'), 300);
 });
 
 // Init
