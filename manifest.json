@@ -4,8 +4,8 @@
   "description": "Fjell-fysikk og Arkimedes for skånsom fiske-koking på vidda.",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#0f172a",
-  "theme_color": "#0f172a",
+  "background_color": "#1c1917",
+  "theme_color": "#1c1917",
   "icons": [
     {
       "src": "icon.svg",

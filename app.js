@@ -5,6 +5,8 @@ let vStart = 5.0;
 let vEnd = 7.0;
 let mass = 2.0; // kg
 let selectedThickness = 1.5; // cm
+let selectedStartTemp = 4; // °C
+let selectedCoreTemp = 55; // °C
 let currentTotalTime = 12.0;
 let countdownInterval;
 
@@ -21,6 +23,9 @@ const valEnd = document.getElementById('val-end');
 const massDisplay = document.getElementById('mass-display');
 
 const thicknessBtns = document.querySelectorAll('.thickness-btn');
+const startTempBtns = document.querySelectorAll('.starttemp-btn');
+const coreTempBtns = document.querySelectorAll('.coretemp-btn');
+
 const timeDisplay = document.getElementById('time-display');
 const btnCook = document.getElementById('btn-cook');
 
@@ -30,17 +35,29 @@ const timerTargetInfo = document.getElementById('timer-target-info');
 const countdownDisplay = document.getElementById('countdown-display');
 const btnCancelTimer = document.getElementById('btn-cancel-timer');
 
+// Helper for UI buttons
+function setBtnActive(allBtns, targetBtn) {
+    allBtns.forEach(b => {
+        b.classList.remove('bg-emerald-700', 'border-emerald-600');
+        b.classList.add('bg-stone-800', 'border-stone-700');
+        b.querySelector('span').classList.remove('text-emerald-200');
+        b.querySelector('span').classList.add('text-stone-400');
+    });
+    targetBtn.classList.remove('bg-stone-800', 'border-stone-700');
+    targetBtn.classList.add('bg-emerald-700', 'border-emerald-600');
+    targetBtn.querySelector('span').classList.remove('text-stone-400');
+    targetBtn.querySelector('span').classList.add('text-emerald-200');
+}
+
 // Logic
 function updatePhysics() {
     // A: Atmosfærisk Kokepunkt-Kalkulator
-    // Hver 300. meter reduserer kokepunktet med ca 1 °C
     boilDisplay.innerText = boilingPoint.toFixed(1) + ' °C';
 
     // B: Arkimedes' Massemåler
     vStart = parseFloat(sliderStart.value);
     vEnd = parseFloat(sliderEnd.value);
     
-    // Sikre at slutt alltid er >= start
     if (vEnd < vStart) {
         vEnd = vStart;
         sliderEnd.value = vStart;
@@ -48,25 +65,31 @@ function updatePhysics() {
     
     valStart.innerText = vStart.toFixed(1);
     valEnd.innerText = vEnd.toFixed(1);
-    
     mass = vEnd - vStart;
     massDisplay.innerText = mass.toFixed(1) + ' kg';
 
-    // C: Fourier Varmeledning & Tykkelsesfaktor
-    // Base diffusjonstid (tilpasset kulinarisk erfaring for 60°C kjerne)
+    // C: Fourier Varmeledning (Oppdatert formel)
     let baseTime = 0;
     if (selectedThickness === 1.5) baseTime = 5.0;
     else if (selectedThickness === 3.0) baseTime = 12.0;
     else if (selectedThickness === 5.0) baseTime = 25.0;
 
-    // Høyde-kompensasjon: ca 12% lengre tid per 1000m (ca 3.3 grader dropp)
-    // Formula: 1 + (100 - T_boil) * 0.04
-    const altFactor = 1 + ((100.0 - boilingPoint) * 0.04);
+    // Fysisk diffusjons-koeffisient via logaritme: ln((Tw - Ti) / (Tw - Tc))
+    // Baseline er kalibrert for Tw=100, Ti=4, Tc=55 => log(96/45) ≈ 0.7576
+    const baselineLog = 0.7576;
     
-    // Masse-kompensasjon: Mye fisk i kjelen kjøler ned vannet, legg på litt ekstra tid
-    const massPenalty = mass * 0.5; // 30 sekunder ekstra per kg fisk
+    let tempDiffRatio = (boilingPoint - selectedStartTemp) / (boilingPoint - selectedCoreTemp);
+    if (tempDiffRatio < 1.1) tempDiffRatio = 1.1; // Unngå for små marginer og evig koking
+    
+    const fourierLogFactor = Math.log(tempDiffRatio);
+    const timeTempFactor = fourierLogFactor / baselineLog;
+    
+    // Masse-kompensasjon: Mye fisk = 30 sek ekstra pr kg
+    const massPenalty = mass * 0.5;
 
-    const totalTime = (baseTime * altFactor) + massPenalty;
+    let totalTime = (baseTime * timeTempFactor) + massPenalty;
+    if (totalTime < 1) totalTime = 1;
+    
     currentTotalTime = totalTime;
     timeDisplay.innerText = totalTime.toFixed(1);
 }
@@ -84,22 +107,24 @@ sliderEnd.addEventListener('input', updatePhysics);
 
 thicknessBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
-        // Reset styles
-        thicknessBtns.forEach(b => {
-            b.classList.remove('bg-blue-600', 'border-blue-500');
-            b.classList.add('bg-slate-700', 'border-slate-600');
-            b.querySelector('span').classList.remove('text-blue-200');
-            b.querySelector('span').classList.add('text-slate-400');
-        });
+        setBtnActive(thicknessBtns, e.currentTarget);
+        selectedThickness = parseFloat(e.currentTarget.dataset.thickness);
+        updatePhysics();
+    });
+});
 
-        // Set active
-        const target = e.currentTarget;
-        target.classList.remove('bg-slate-700', 'border-slate-600');
-        target.classList.add('bg-blue-600', 'border-blue-500');
-        target.querySelector('span').classList.remove('text-slate-400');
-        target.querySelector('span').classList.add('text-blue-200');
+startTempBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        setBtnActive(startTempBtns, e.currentTarget);
+        selectedStartTemp = parseFloat(e.currentTarget.dataset.temp);
+        updatePhysics();
+    });
+});
 
-        selectedThickness = parseFloat(target.dataset.thickness);
+coreTempBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        setBtnActive(coreTempBtns, e.currentTarget);
+        selectedCoreTemp = parseFloat(e.currentTarget.dataset.temp);
         updatePhysics();
     });
 });
@@ -109,25 +134,16 @@ btnGps.addEventListener('click', () => {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                // Mock høyde hvis API-et mangler altitude (skjer ofte i desktop-browsere)
-                const currentAlt = position.coords.altitude !== null ? position.coords.altitude : Math.floor(Math.random() * 800) + 400; // Mock 400-1200m
-                
+                const currentAlt = position.coords.altitude !== null ? position.coords.altitude : Math.floor(Math.random() * 800) + 400; 
                 altitude = currentAlt;
                 boilingPoint = 100.0 - (altitude / 300.0);
                 inputAlt.value = Math.round(altitude);
                 
                 btnGps.innerText = "Oppdatert";
-                btnGps.classList.remove('bg-blue-600');
-                btnGps.classList.add('bg-emerald-600');
                 gpsStatus.innerText = "GPS-data innhentet suksessfullt.";
-                
                 updatePhysics();
                 
-                setTimeout(() => {
-                    btnGps.innerText = "Hent GPS";
-                    btnGps.classList.remove('bg-emerald-600');
-                    btnGps.classList.add('bg-blue-600');
-                }, 3000);
+                setTimeout(() => { btnGps.innerText = "Hent GPS"; }, 3000);
             },
             (error) => {
                 console.error(error);
@@ -138,22 +154,19 @@ btnGps.addEventListener('click', () => {
             { enableHighAccuracy: true }
         );
     } else {
-        gpsStatus.innerText = "Geolokasjon støttes ikke av nettleseren.";
-        btnGps.innerText = "Ikke støttet";
+        gpsStatus.innerText = "Ikke støttet";
     }
 });
 
 btnCook.addEventListener('click', () => {
-    // Show overlay
     timerOverlay.classList.remove('hidden');
     setTimeout(() => timerOverlay.classList.remove('opacity-0'), 10);
     
-    // Reset styling if it was completed earlier
     timerTitle.innerText = "TREKKER FISK";
-    timerTitle.classList.remove('text-red-400', 'animate-pulse');
-    timerTitle.classList.add('text-blue-400');
+    timerTitle.classList.remove('text-red-500', 'animate-pulse');
+    timerTitle.classList.add('text-emerald-500');
     
-    timerTargetInfo.innerText = `Beregnet tid: ${currentTotalTime.toFixed(1)} minutter`;
+    timerTargetInfo.innerText = `Mål: ${selectedCoreTemp}°C (${currentTotalTime.toFixed(1)} min)`;
     
     const endTime = Date.now() + currentTotalTime * 60 * 1000;
     
@@ -164,8 +177,8 @@ btnCook.addEventListener('click', () => {
             clearInterval(countdownInterval);
             countdownDisplay.innerText = "00:00";
             timerTitle.innerText = "FISKEN ER KLAR!";
-            timerTitle.classList.remove('text-blue-400');
-            timerTitle.classList.add('text-red-400', 'animate-pulse');
+            timerTitle.classList.remove('text-emerald-500');
+            timerTitle.classList.add('text-red-500', 'animate-pulse');
         } else {
             const totalSeconds = Math.floor(remaining / 1000);
             const minutes = Math.floor(totalSeconds / 60);

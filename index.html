@@ -6,7 +6,7 @@
     <title>TermoFisk OS</title>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon.svg">
-    <meta name="theme-color" content="#0f172a">
+    <meta name="theme-color" content="#1c1917">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -14,98 +14,129 @@
             appearance: none;
             width: 24px;
             height: 24px;
-            background: #ef4444;
+            background: #f97316; /* orange-500 */
             border-radius: 50%;
             cursor: pointer;
         }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen p-4 flex flex-col max-w-md mx-auto">
+<body class="bg-stone-950 text-stone-100 min-h-screen p-4 flex flex-col max-w-md mx-auto">
     <header class="mb-6 mt-4">
-        <h1 class="text-3xl font-bold text-center text-blue-400">TermoFisk OS</h1>
-        <p class="text-center text-slate-400 text-sm mt-1">Arkimedes & Fjell-Fysikk Edition</p>
+        <h1 class="text-3xl font-bold text-center text-emerald-500">TermoFisk OS</h1>
+        <p class="text-center text-stone-400 text-sm mt-1">Arkimedes & Villmarksfysikk</p>
     </header>
 
     <!-- Modul A: Atmosfærisk -->
-    <section class="bg-slate-800 rounded-xl p-4 mb-4 shadow-lg border border-slate-700">
+    <section class="bg-stone-900 rounded-xl p-4 mb-4 shadow-lg border border-stone-800">
         <h2 class="text-xl font-semibold mb-2 flex items-center justify-between">
-            <span>🌍 Atmosfærisk Status</span>
-            <button id="btn-gps" class="text-sm bg-blue-600 hover:bg-blue-500 px-3 py-1 rounded-full transition">Hent GPS</button>
+            <span class="text-emerald-100">🌍 Atmosfærisk Status</span>
+            <button id="btn-gps" class="text-sm bg-emerald-700 hover:bg-emerald-600 px-3 py-1 rounded-full transition">Hent GPS</button>
         </h2>
         <div class="grid grid-cols-2 gap-4 mt-4">
-            <div class="bg-slate-900 p-3 rounded-lg text-center flex flex-col justify-center items-center">
-                <div class="text-slate-400 text-xs uppercase tracking-wide mb-1">Høyde over havet</div>
+            <div class="bg-stone-950 p-3 rounded-lg text-center flex flex-col justify-center items-center">
+                <div class="text-stone-400 text-xs uppercase tracking-wide mb-1">Høyde over havet</div>
                 <div class="flex items-baseline">
-                    <input type="number" id="input-alt" value="0" min="0" max="9000" class="bg-transparent text-2xl font-bold text-white w-16 text-center focus:outline-none border-b-2 border-slate-600 focus:border-blue-400 transition appearance-none">
-                    <span class="text-sm text-slate-500 font-normal ml-1">m</span>
+                    <input type="number" id="input-alt" value="0" min="0" max="9000" class="bg-transparent text-2xl font-bold text-white w-16 text-center focus:outline-none border-b-2 border-stone-700 focus:border-emerald-500 transition appearance-none">
+                    <span class="text-sm text-stone-500 font-normal ml-1">m</span>
                 </div>
             </div>
-            <div class="bg-slate-900 p-3 rounded-lg text-center">
-                <div class="text-slate-400 text-xs uppercase tracking-wide">Lokalt Kokepunkt</div>
-                <div class="text-2xl font-bold text-orange-400" id="boil-display">100.0 <span class="text-sm text-slate-500 font-normal">°C</span></div>
+            <div class="bg-stone-950 p-3 rounded-lg text-center">
+                <div class="text-stone-400 text-xs uppercase tracking-wide">Lokalt Kokepunkt</div>
+                <div class="text-2xl font-bold text-orange-400" id="boil-display">100.0 <span class="text-sm text-stone-500 font-normal">°C</span></div>
             </div>
         </div>
-        <p class="text-xs text-slate-500 mt-2 text-center" id="gps-status">Bruker standard (havnivå) inntil GPS er hentet.</p>
+        <p class="text-xs text-stone-500 mt-2 text-center" id="gps-status">Bruker standard (havnivå) inntil GPS er hentet.</p>
     </section>
 
     <!-- Modul B: Arkimedes -->
-    <section class="bg-slate-800 rounded-xl p-4 mb-4 shadow-lg border border-slate-700">
-        <h2 class="text-xl font-semibold mb-4">⚖️ Arkimedes' Massemåler</h2>
+    <section class="bg-stone-900 rounded-xl p-4 mb-4 shadow-lg border border-stone-800">
+        <h2 class="text-xl font-semibold mb-4 text-emerald-100">⚖️ Arkimedes' Massemåler</h2>
         
         <div class="mb-4">
             <label class="flex justify-between text-sm mb-1">
-                <span class="text-slate-300">Vannstand FØR fisk</span>
-                <span class="font-bold text-blue-300" id="val-start">5.0</span>
+                <span class="text-stone-300">Vannstand FØR fisk</span>
+                <span class="font-bold text-emerald-400" id="val-start">5.0</span>
             </label>
-            <input type="range" id="slider-start" min="1" max="10" step="0.5" value="5" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer slider-thumb">
+            <input type="range" id="slider-start" min="1" max="10" step="0.5" value="5" class="w-full h-2 bg-stone-800 rounded-lg appearance-none cursor-pointer slider-thumb">
         </div>
 
         <div class="mb-4">
             <label class="flex justify-between text-sm mb-1">
-                <span class="text-slate-300">Vannstand ETTER fisk</span>
-                <span class="font-bold text-blue-300" id="val-end">7.0</span>
+                <span class="text-stone-300">Vannstand ETTER fisk</span>
+                <span class="font-bold text-emerald-400" id="val-end">7.0</span>
             </label>
-            <input type="range" id="slider-end" min="1" max="10" step="0.5" value="7" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer slider-thumb">
+            <input type="range" id="slider-end" min="1" max="10" step="0.5" value="7" class="w-full h-2 bg-stone-800 rounded-lg appearance-none cursor-pointer slider-thumb">
         </div>
 
-        <div class="bg-slate-900 p-3 rounded-lg flex justify-between items-center">
-            <span class="text-sm text-slate-400">Beregnet masse:</span>
-            <span class="text-xl font-bold text-emerald-400" id="mass-display">2.0 kg</span>
+        <div class="bg-stone-950 p-3 rounded-lg flex justify-between items-center">
+            <span class="text-sm text-stone-400">Beregnet masse:</span>
+            <span class="text-xl font-bold text-emerald-500" id="mass-display">2.0 kg</span>
         </div>
     </section>
 
-    <!-- Modul C: Tykkelse -->
-    <section class="bg-slate-800 rounded-xl p-4 mb-6 shadow-lg border border-slate-700">
-        <h2 class="text-xl font-semibold mb-4">🐟 Fiskens Tykkelse</h2>
-        <div class="grid grid-cols-3 gap-2">
-            <button class="thickness-btn bg-blue-600 border border-blue-500 rounded-lg py-2 text-sm font-medium transition" data-thickness="1.5">
-                Tynt<br><span class="text-xs text-blue-200">1.5 cm</span>
-            </button>
-            <button class="thickness-btn bg-slate-700 border border-slate-600 rounded-lg py-2 text-sm font-medium transition hover:bg-slate-600" data-thickness="3.0">
-                Standard<br><span class="text-xs text-slate-400">3 cm</span>
-            </button>
-            <button class="thickness-btn bg-slate-700 border border-slate-600 rounded-lg py-2 text-sm font-medium transition hover:bg-slate-600" data-thickness="5.0">
-                Loin<br><span class="text-xs text-slate-400">5 cm</span>
-            </button>
+    <!-- Modul C: Fisken -->
+    <section class="bg-stone-900 rounded-xl p-4 mb-6 shadow-lg border border-stone-800">
+        <h2 class="text-xl font-semibold mb-4 text-emerald-100">🐟 Fisken</h2>
+        
+        <div class="mb-4">
+            <span class="text-xs text-stone-400 uppercase tracking-wide mb-2 block">1. Tykkelse</span>
+            <div class="grid grid-cols-3 gap-2">
+                <button class="thickness-btn bg-emerald-700 border border-emerald-600 rounded-lg py-2 text-sm font-medium transition" data-thickness="1.5">
+                    Tynt<br><span class="text-xs text-emerald-200">1.5 cm</span>
+                </button>
+                <button class="thickness-btn bg-stone-800 border border-stone-700 rounded-lg py-2 text-sm font-medium transition hover:bg-stone-700" data-thickness="3.0">
+                    Standard<br><span class="text-xs text-stone-400">3 cm</span>
+                </button>
+                <button class="thickness-btn bg-stone-800 border border-stone-700 rounded-lg py-2 text-sm font-medium transition hover:bg-stone-700" data-thickness="5.0">
+                    Loin<br><span class="text-xs text-stone-400">5 cm</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="mb-4">
+            <span class="text-xs text-stone-400 uppercase tracking-wide mb-2 block">2. Temperatur før koking</span>
+            <div class="grid grid-cols-2 gap-2">
+                <button class="starttemp-btn bg-emerald-700 border border-emerald-600 rounded-lg py-2 text-sm font-medium transition" data-temp="4">
+                    Kjøleskap/Bekk<br><span class="text-xs text-emerald-200">~4 °C</span>
+                </button>
+                <button class="starttemp-btn bg-stone-800 border border-stone-700 rounded-lg py-2 text-sm font-medium transition hover:bg-stone-700" data-temp="20">
+                    Telt/Sekk<br><span class="text-xs text-stone-400">~20 °C</span>
+                </button>
+            </div>
+        </div>
+
+        <div>
+            <span class="text-xs text-stone-400 uppercase tracking-wide mb-2 block">3. Ønsket Kjernetemperatur</span>
+            <div class="grid grid-cols-3 gap-2">
+                <button class="coretemp-btn bg-stone-800 border border-stone-700 rounded-lg py-2 text-sm font-medium transition hover:bg-stone-700" data-temp="45">
+                    Medium<br><span class="text-xs text-stone-400">45 °C</span>
+                </button>
+                <button class="coretemp-btn bg-emerald-700 border border-emerald-600 rounded-lg py-2 text-sm font-medium transition" data-temp="55">
+                    Perfekt<br><span class="text-xs text-emerald-200">55 °C</span>
+                </button>
+                <button class="coretemp-btn bg-stone-800 border border-stone-700 rounded-lg py-2 text-sm font-medium transition hover:bg-stone-700" data-temp="65">
+                    Gjennom<br><span class="text-xs text-stone-400">65 °C</span>
+                </button>
+            </div>
         </div>
     </section>
 
     <!-- Call to Action -->
-    <button id="btn-cook" class="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-5 px-4 rounded-xl shadow-lg border border-red-500 mb-8 transition transform active:scale-95 text-lg leading-tight">
+    <button id="btn-cook" class="w-full bg-orange-700 hover:bg-orange-600 text-white font-bold py-5 px-4 rounded-xl shadow-lg border border-orange-500 mb-8 transition transform active:scale-95 text-lg leading-tight">
         KOK OPP TIL ROULERENDE BOBLER →<br>TREKK I <span id="time-display">12.0</span> MINUTTER<br>
-        <span class="text-sm font-normal opacity-90 mt-1 block">START KLOKKA NÅ!</span>
+        <span class="text-sm font-normal text-orange-200 mt-1 block">START KLOKKA NÅ!</span>
     </button>
 
     <!-- Nedtelling Overlay -->
-    <div id="timer-overlay" class="fixed inset-0 bg-slate-900/95 backdrop-blur-md z-50 flex flex-col items-center justify-center hidden opacity-0 transition-opacity duration-300">
-        <h2 class="text-3xl font-bold text-blue-400 mb-2 text-center" id="timer-title">TREKKER FISK</h2>
-        <p class="text-slate-300 mb-8" id="timer-target-info">Beregnet tid: 12.0 minutter</p>
+    <div id="timer-overlay" class="fixed inset-0 bg-stone-950/95 backdrop-blur-md z-50 flex flex-col items-center justify-center hidden opacity-0 transition-opacity duration-300">
+        <h2 class="text-3xl font-bold text-emerald-500 mb-2 text-center" id="timer-title">TREKKER FISK</h2>
+        <p class="text-stone-300 mb-8" id="timer-target-info">Beregnet tid: 12.0 minutter</p>
         
-        <div class="text-7xl font-mono font-bold text-emerald-400 mb-12 drop-shadow-[0_0_15px_rgba(52,211,153,0.5)]" id="countdown-display">
+        <div class="text-7xl font-mono font-bold text-orange-500 mb-12 drop-shadow-[0_0_15px_rgba(249,115,22,0.5)]" id="countdown-display">
             12:00
         </div>
         
-        <button id="btn-cancel-timer" class="bg-slate-700 hover:bg-slate-600 border border-slate-500 text-white font-bold py-4 px-10 rounded-full shadow-lg transition transform active:scale-95 text-lg">
+        <button id="btn-cancel-timer" class="bg-stone-800 hover:bg-stone-700 border border-stone-600 text-white font-bold py-4 px-10 rounded-full shadow-lg transition transform active:scale-95 text-lg">
             Avbryt / Restart
         </button>
     </div>
