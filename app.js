@@ -38,15 +38,15 @@ const btnCancelTimer = document.getElementById('btn-cancel-timer');
 // Helper for UI buttons
 function setBtnActive(allBtns, targetBtn) {
     allBtns.forEach(b => {
-        b.classList.remove('bg-emerald-700', 'border-emerald-600');
-        b.classList.add('bg-stone-800', 'border-stone-700');
-        b.querySelector('span').classList.remove('text-emerald-200');
-        b.querySelector('span').classList.add('text-stone-400');
+        b.classList.remove('bg-emerald-700', 'border-emerald-800', 'text-white', 'shadow-sm');
+        b.classList.add('bg-stone-50', 'border-stone-300', 'text-stone-900', 'hover:bg-stone-100');
+        b.querySelector('span').classList.remove('text-emerald-100');
+        b.querySelector('span').classList.add('text-stone-500');
     });
-    targetBtn.classList.remove('bg-stone-800', 'border-stone-700');
-    targetBtn.classList.add('bg-emerald-700', 'border-emerald-600');
-    targetBtn.querySelector('span').classList.remove('text-stone-400');
-    targetBtn.querySelector('span').classList.add('text-emerald-200');
+    targetBtn.classList.remove('bg-stone-50', 'border-stone-300', 'text-stone-900', 'hover:bg-stone-100');
+    targetBtn.classList.add('bg-emerald-700', 'border-emerald-800', 'text-white', 'shadow-sm');
+    targetBtn.querySelector('span').classList.remove('text-stone-500');
+    targetBtn.querySelector('span').classList.add('text-emerald-100');
 }
 
 // Logic
