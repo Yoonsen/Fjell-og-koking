@@ -1,4 +1,4 @@
-const CACHE_NAME = 'termofisk-v1';
+const CACHE_NAME = 'termofisk-v2';
 const ASSETS = [
   './',
   './index.html',
@@ -40,4 +40,11 @@ self.addEventListener('activate', (event) => {
       );
     })
   );
+});
+
+// Lytter etter melding fra nettsiden om å oppdatere
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting(); // Tvinger den nye versjonen til å ta over umiddelbart
+  }
 });

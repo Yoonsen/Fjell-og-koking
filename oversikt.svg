@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+    <defs>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap');
+            text { font-family: 'Inter', system-ui, sans-serif; }
+            .title { font-size: 36px; font-weight: 700; fill: #047857; }
+            .subtitle { font-size: 20px; font-weight: 400; fill: #57534e; }
+            .box-title { font-size: 24px; font-weight: 600; fill: #065f46; }
+            .body-text { font-size: 16px; font-weight: 400; fill: #44403c; }
+            .math { font-family: monospace; font-size: 16px; fill: #ea580c; font-weight: 600; }
+        </style>
+        <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+            <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.05"/>
+        </filter>
+    </defs>
+    
+    <!-- Background -->
+    <rect width="1200" height="800" fill="#f5f5f4" />
+    
+    <!-- Header -->
+    <text x="600" y="80" text-anchor="middle" class="title">TermoFisk OS - Systemarkitektur &amp; Fysikk</text>
+    <text x="600" y="115" text-anchor="middle" class="subtitle">En overordnet visuell guide til logikken bak den perfekte fjellfisken</text>
+    
+    <!-- Module A: Atmosfære -->
+    <g transform="translate(50, 180)">
+        <rect width="320" height="400" rx="16" fill="#ffffff" filter="url(#shadow)" stroke="#e7e5e4" stroke-width="2"/>
+        <text x="160" y="60" text-anchor="middle" font-size="55">🏔️</text>
+        <text x="160" y="120" text-anchor="middle" class="box-title">Modul A: Atmosfære</text>
+        
+        <text x="20" y="170" class="body-text">• Input: Høyde over havet</text>
+        <text x="20" y="200" class="body-text">• Prinsipp: Trykket synker i høyden</text>
+        <text x="20" y="230" class="body-text">• Resultat: Lavere startenergi i vannet</text>
+        
+        <rect x="20" y="270" width="280" height="90" rx="8" fill="#fff7ed" stroke="#fdba74" stroke-width="1"/>
+        <text x="160" y="305" text-anchor="middle" class="math">T_vann = 100 - (Høyde / 300)</text>
+        <text x="160" y="335" text-anchor="middle" class="body-text" font-size="14" fill="#ea580c">- 1 °C per 300 meter over havet</text>
+    </g>
+
+    <!-- Module B: Arkimedes -->
+    <g transform="translate(440, 180)">
+        <rect width="320" height="400" rx="16" fill="#ffffff" filter="url(#shadow)" stroke="#e7e5e4" stroke-width="2"/>
+        <text x="160" y="60" text-anchor="middle" font-size="55">⚖️</text>
+        <text x="160" y="120" text-anchor="middle" class="box-title">Modul B: Arkimedes</text>
+        
+        <text x="20" y="170" class="body-text">• Input: Vannstand FØR og ETTER</text>
+        <text x="20" y="200" class="body-text">• Prinsipp: Forskyvning av volum</text>
+        <text x="20" y="230" class="body-text">• Forutsetning: Fiskens tetthet ≈ 1 kg/L</text>
+        
+        <rect x="20" y="270" width="280" height="90" rx="8" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+        <text x="160" y="305" text-anchor="middle" class="math">Masse (kg) = V_etter - V_før</text>
+        <text x="160" y="335" text-anchor="middle" class="body-text" font-size="14" fill="#166534">Eliminerer behov for kjøkkenvekt i felt</text>
+    </g>
+
+    <!-- Module C: Fourier -->
+    <g transform="translate(830, 180)">
+        <rect width="320" height="400" rx="16" fill="#ffffff" filter="url(#shadow)" stroke="#e7e5e4" stroke-width="2"/>
+        <text x="160" y="60" text-anchor="middle" font-size="55">🐟</text>
+        <text x="160" y="120" text-anchor="middle" class="box-title">Modul C: Fourier</text>
+        
+        <text x="20" y="170" class="body-text">• Input: Tykkelse, Start- &amp; Kjernetemp.</text>
+        <text x="20" y="200" class="body-text">• Prinsipp: Varmeledning &amp; diffusjon</text>
+        <text x="20" y="230" class="body-text">• Resultat: Eksakt trekketid</text>
+        
+        <rect x="20" y="270" width="280" height="110" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+        <text x="160" y="300" text-anchor="middle" class="math">Faktor = ln((T_w - T_i) / (T_w - T_c))</text>
+        <text x="160" y="325" text-anchor="middle" class="math">Tid = BaseTid × Faktor + Straff</text>
+        <text x="160" y="355" text-anchor="middle" class="body-text" font-size="11" fill="#475569">Tw=Vann, Ti=StartTemp, Tc=Kjernetemp</text>
+    </g>
+
+    <!-- Output Box at the bottom -->
+    <g transform="translate(300, 640)">
+        <rect width="600" height="100" rx="50" fill="#047857" filter="url(#shadow)"/>
+        <text x="300" y="45" text-anchor="middle" font-size="28" font-weight="700" fill="#ffffff">🚀 ACTION: Kok opp → Trekk → Nyt</text>
+        <text x="300" y="75" text-anchor="middle" font-size="16" font-weight="400" fill="#d1fae5">Tiden skalerer matematisk for alle naturkrefter uavhengig av varmekilde</text>
+    </g>
+    
+    <!-- Connecting lines pointing to the action box -->
+    <!-- From Modul A -->
+    <path d="M 210 585 Q 210 690 280 690" stroke="#a8a29e" stroke-width="3" fill="none" stroke-dasharray="8 8" stroke-linecap="round"/>
+    <polygon points="280,690 270,685 270,695" fill="#a8a29e" />
+    
+    <!-- From Modul B -->
+    <path d="M 600 585 L 600 625" stroke="#a8a29e" stroke-width="3" fill="none" stroke-dasharray="8 8" stroke-linecap="round"/>
+    <polygon points="600,625 595,615 605,615" fill="#a8a29e" />
+
+    <!-- From Modul C -->
+    <path d="M 990 585 Q 990 690 920 690" stroke="#a8a29e" stroke-width="3" fill="none" stroke-dasharray="8 8" stroke-linecap="round"/>
+    <polygon points="920,690 930,685 930,695" fill="#a8a29e" />
+    
+</svg>

@@ -21,6 +21,12 @@
     </style>
 </head>
 <body class="bg-stone-100 text-stone-900 min-h-screen p-4 flex flex-col max-w-md mx-auto">
+    <!-- Oppdaterings-banner (skjult som standard) -->
+    <div id="update-banner" class="fixed top-0 left-0 w-full bg-emerald-600 text-white text-center py-3 px-4 transform -translate-y-full transition-transform duration-300 z-[100] shadow-md flex justify-between items-center">
+        <span class="text-sm font-semibold">Ny versjon tilgjengelig! ✨</span>
+        <button id="btn-update-app" class="bg-white text-emerald-800 text-xs font-bold py-1 px-3 rounded-full hover:bg-stone-100 transition">Oppdater nå</button>
+    </div>
+
     <header class="mb-6 mt-4">
         <h1 class="text-3xl font-bold text-center text-emerald-700">TermoFisk OS</h1>
         <p class="text-center text-stone-500 text-sm mt-1">Arkimedes & Villmarksfysikk</p>
@@ -143,11 +149,39 @@
 
     <script src="app.js"></script>
     <script>
+        const updateBanner = document.getElementById('update-banner');
+        const btnUpdateApp = document.getElementById('btn-update-app');
+        let newWorker;
+
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('Service Worker registrert!'))
-                    .catch(err => console.error('Service Worker feilet', err));
+            navigator.serviceWorker.register('./sw.js').then(reg => {
+                // Sjekk etter oppdateringer når siden lastes
+                reg.addEventListener('updatefound', () => {
+                    newWorker = reg.installing;
+                    newWorker.addEventListener('statechange', () => {
+                        // Hvis ny worker er installert, og vi allerede hadde en fra før av (det er en oppdatering)
+                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            updateBanner.classList.remove('-translate-y-full'); // Vis banneret
+                        }
+                    });
+                });
+            }).catch(err => console.error('Service Worker feilet', err));
+
+            // Når den nye service workeren har tatt over, oppdaterer vi siden automatisk
+            let refreshing = false;
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                if (!refreshing) {
+                    refreshing = true;
+                    window.location.reload();
+                }
+            });
+
+            // Når brukeren klikker "Oppdater", si til Service Workeren at den skal hoppe over ventetiden
+            btnUpdateApp.addEventListener('click', () => {
+                updateBanner.classList.add('-translate-y-full'); // Skjul banner
+                if (newWorker) {
+                    newWorker.postMessage({ type: 'SKIP_WAITING' });
+                }
             });
         }
     </script>
