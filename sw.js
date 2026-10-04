@@ -1,4 +1,4 @@
-const CACHE_NAME = 'termofisk-v2';
+const CACHE_NAME = 'termofisk-v3';
 const ASSETS = [
   './',
   './index.html',

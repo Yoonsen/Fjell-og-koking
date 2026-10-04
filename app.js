@@ -16,6 +16,7 @@ const boilDisplay = document.getElementById('boil-display');
 const btnGps = document.getElementById('btn-gps');
 const gpsStatus = document.getElementById('gps-status');
 
+const selectPotVolume = document.getElementById('select-pot-volume');
 const sliderStart = document.getElementById('slider-start');
 const sliderEnd = document.getElementById('slider-end');
 const valStart = document.getElementById('val-start');
@@ -57,6 +58,7 @@ function updatePhysics() {
     // B: Arkimedes' Massemåler
     vStart = parseFloat(sliderStart.value);
     vEnd = parseFloat(sliderEnd.value);
+    const potVolume = parseFloat(selectPotVolume.value);
     
     if (vEnd < vStart) {
         vEnd = vStart;
@@ -65,8 +67,17 @@ function updatePhysics() {
     
     valStart.innerText = vStart.toFixed(1);
     valEnd.innerText = vEnd.toFixed(1);
-    mass = vEnd - vStart;
-    massDisplay.innerText = mass.toFixed(1) + ' kg';
+    
+    // Antar 10 "merker" på kjelen fra bunn til topp
+    // Masse = (endring i merker / 10) * Kjelens volum
+    // Gitt tetthet for fisk ca 1 kg per liter (1.0)
+    mass = ((vEnd - vStart) / 10) * potVolume;
+    
+    if (mass < 1.0 && mass > 0) {
+        massDisplay.innerText = (mass * 1000).toFixed(0) + ' g';
+    } else {
+        massDisplay.innerText = mass.toFixed(2) + ' kg';
+    }
 
     // C: Fourier Varmeledning (Oppdatert formel)
     let baseTime = 0;
@@ -104,6 +115,7 @@ inputAlt.addEventListener('input', () => {
 
 sliderStart.addEventListener('input', updatePhysics);
 sliderEnd.addEventListener('input', updatePhysics);
+selectPotVolume.addEventListener('change', updatePhysics);
 
 thicknessBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
