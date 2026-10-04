@@ -30,6 +30,9 @@ const coreTempBtns = document.querySelectorAll('.coretemp-btn');
 const timeDisplay = document.getElementById('time-display');
 const btnCook = document.getElementById('btn-cook');
 
+const eqWarning = document.getElementById('eq-warning');
+const eqTempDisplay = document.getElementById('eq-temp-display');
+
 const timerOverlay = document.getElementById('timer-overlay');
 const timerTitle = document.getElementById('timer-title');
 const timerTargetInfo = document.getElementById('timer-target-info');
@@ -103,6 +106,24 @@ function updatePhysics() {
     
     currentTotalTime = totalTime;
     timeDisplay.innerText = totalTime.toFixed(1);
+
+    // D: Termisk Likevekt-vakt (Richmanns blandingsregel)
+    const waterMass = (vStart / 10) * potVolume; 
+    if (waterMass > 0 && mass > 0) {
+        const eqTemp = ((waterMass * boilingPoint) + (mass * selectedStartTemp)) / (waterMass + mass);
+        
+        // Krav: Snitt-temperaturen bør ligge over 75 °C for å ha drivkraft og buffer mot varmetap
+        const safeBufferTemp = Math.max(75.0, selectedCoreTemp + 10.0);
+        
+        if (eqTemp < safeBufferTemp) {
+            eqTempDisplay.innerText = eqTemp.toFixed(1);
+            eqWarning.classList.remove('hidden');
+        } else {
+            eqWarning.classList.add('hidden');
+        }
+    } else {
+        eqWarning.classList.add('hidden');
+    }
 }
 
 // Event Listeners
