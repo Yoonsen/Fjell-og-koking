@@ -1,50 +1,27 @@
-const CACHE_NAME = 'termofisk-v4';
-const ASSETS = [
-  './',
-  './index.html',
-  './app.js',
-  './icon.svg',
-  './manifest.json'
-];
+const CACHE_NAME = 'termofisk-nuke';
 
-// Installerer Service Worker og lagrer filene i cachen (for offline bruk)
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log('Cacher offline-ressurser');
-      return cache.addAll(ASSETS);
-    })
-  );
+  self.skipWaiting(); // Tving aktivering umiddelbart
 });
 
-// Svarer på nettverksforespørsler fra cachen hvis vi er offline
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      // Returner filen fra cache hvis den finnes, ellers hent fra nettverket
-      return response || fetch(event.request);
-    })
-  );
-});
-
-// Rydder opp i gamle cacher hvis vi oppdaterer versjonsnummeret
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName);
-          }
-        })
+        cacheNames.map((cacheName) => caches.delete(cacheName)) // Slett ALT i cachen
       );
+    }).then(() => {
+      return self.clients.claim(); // Ta kontroll over alle åpne faner
     })
   );
 });
 
-// Lytter etter melding fra nettsiden om å oppdatere
-self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting(); // Tvinger den nye versjonen til å ta over umiddelbart
-  }
+self.addEventListener('fetch', (event) => {
+  // Gå ALLTID direkte til nettverket, ignorer cache
+  event.respondWith(
+    fetch(event.request).catch(() => {
+      // Fallback hvis helt offline og cachen akkurat ble slettet
+      return new Response("Nettverksfeil. Vennligst koble til for å få den nye versjonen.");
+    })
+  );
 });

@@ -32,6 +32,13 @@
         <p class="text-center text-stone-500 text-sm mt-1">Arkimedes & Villmarksfysikk</p>
     </header>
 
+    <div class="flex justify-center mb-4">
+        <div class="bg-stone-200 rounded-lg p-1 inline-flex w-full max-w-[250px]">
+            <button id="mode-fisk" class="flex-1 py-2 rounded-md bg-white shadow-sm text-sm font-bold text-emerald-800 transition">🐟 Fisk</button>
+            <button id="mode-egg" class="flex-1 py-2 rounded-md text-sm font-medium text-stone-600 hover:text-stone-800 transition">🥚 Egg</button>
+        </div>
+    </div>
+
     <!-- Modul A: Atmosfærisk -->
     <section class="bg-white rounded-xl p-4 mb-4 shadow-sm border border-stone-200">
         <h2 class="text-xl font-semibold mb-2 flex items-center justify-between">
@@ -55,7 +62,7 @@
     </section>
 
     <!-- Modul B: Arkimedes -->
-    <section class="bg-white rounded-xl p-4 mb-4 shadow-sm border border-stone-200">
+    <section id="modul-b" class="bg-white rounded-xl p-4 mb-4 shadow-sm border border-stone-200">
         <h2 class="text-xl font-semibold mb-4 text-emerald-800">⚖️ Arkimedes' Massemåler</h2>
         
         <div class="mb-4">
@@ -72,17 +79,17 @@
         <div class="mb-4">
             <label class="flex justify-between text-sm mb-1">
                 <span class="text-stone-600">Vannstand FØR (1-10 skala)</span>
-                <span class="font-bold text-emerald-700" id="val-start">5.0</span>
+                <span class="font-bold text-emerald-700" id="val-start">6.0</span>
             </label>
-            <input type="range" id="slider-start" min="1" max="10" step="0.5" value="5" class="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer slider-thumb">
+            <input type="range" id="slider-start" min="1" max="10" step="0.5" value="6" class="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer slider-thumb">
         </div>
 
         <div class="mb-4">
             <label class="flex justify-between text-sm mb-1">
                 <span class="text-stone-600">Vannstand ETTER (1-10 skala)</span>
-                <span class="font-bold text-emerald-700" id="val-end">7.0</span>
+                <span class="font-bold text-emerald-700" id="val-end">6.5</span>
             </label>
-            <input type="range" id="slider-end" min="1" max="10" step="0.5" value="7" class="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer slider-thumb">
+            <input type="range" id="slider-end" min="1" max="10" step="0.5" value="6.5" class="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer slider-thumb">
         </div>
 
         <div class="bg-stone-50 p-3 rounded-lg flex justify-between items-center border border-stone-100">
@@ -92,7 +99,7 @@
     </section>
 
     <!-- Modul C: Fisken -->
-    <section class="bg-white rounded-xl p-4 mb-6 shadow-sm border border-stone-200">
+    <section id="modul-c" class="bg-white rounded-xl p-4 mb-6 shadow-sm border border-stone-200">
         <h2 class="text-xl font-semibold mb-4 text-emerald-800">🐟 Fisken</h2>
         
         <div class="mb-4">
@@ -138,7 +145,74 @@
         </div>
     </section>
 
-    <!-- Termisk Likevekt Advarsel -->
+    <!-- Modul Egg -->
+    <section id="modul-egg" class="hidden bg-white rounded-xl p-4 mb-6 shadow-sm border border-stone-200">
+        <h2 class="text-xl font-semibold mb-4 text-emerald-800">🥚 Eggemodus</h2>
+        
+        <div class="mb-4">
+            <span class="text-xs text-stone-500 uppercase tracking-wide mb-2 block">1. Eggstørrelse</span>
+            <div class="grid grid-cols-3 gap-2">
+                <button class="eggsize-btn bg-stone-50 border border-stone-300 text-stone-900 rounded-lg py-2 text-sm font-medium transition hover:bg-stone-100" data-mass="50">
+                    S/Små<br><span class="text-xs text-stone-500">~50g</span>
+                </button>
+                <button class="eggsize-btn bg-emerald-700 border border-emerald-800 text-white rounded-lg py-2 text-sm font-medium transition shadow-sm" data-mass="60">
+                    M/Medium<br><span class="text-xs text-emerald-100">~60g</span>
+                </button>
+                <button class="eggsize-btn bg-stone-50 border border-stone-300 text-stone-900 rounded-lg py-2 text-sm font-medium transition hover:bg-stone-100" data-mass="70">
+                    L/Store<br><span class="text-xs text-stone-500">~70g</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="mb-4">
+            <span class="text-xs text-stone-500 uppercase tracking-wide mb-2 block">2. Temperatur før koking</span>
+            <div class="grid grid-cols-2 gap-2">
+                <button class="eggstart-btn bg-emerald-700 border border-emerald-800 text-white rounded-lg py-2 text-sm font-medium transition shadow-sm" data-temp="4">
+                    Kjøleskap/Bekk<br><span class="text-xs text-emerald-100">~4 °C</span>
+                </button>
+                <button class="eggstart-btn bg-stone-50 border border-stone-300 text-stone-900 rounded-lg py-2 text-sm font-medium transition hover:bg-stone-100" data-temp="20">
+                    Telt/Sekk<br><span class="text-xs text-stone-500">~20 °C</span>
+                </button>
+            </div>
+        </div>
+
+        <div>
+            <span class="text-xs text-stone-500 uppercase tracking-wide mb-2 block">3. Resultat</span>
+            <div class="grid grid-cols-3 gap-2">
+                <button class="eggyolk-btn bg-stone-50 border border-stone-300 text-stone-900 rounded-lg py-2 text-sm font-medium transition hover:bg-stone-100" data-temp="63">
+                    Bløtkokt<br><span class="text-xs text-stone-500">63 °C</span>
+                </button>
+                <button class="eggyolk-btn bg-emerald-700 border border-emerald-800 text-white rounded-lg py-2 text-sm font-medium transition shadow-sm" data-temp="70">
+                    Smilende<br><span class="text-xs text-emerald-100">70 °C</span>
+                </button>
+                <button class="eggyolk-btn bg-stone-50 border border-stone-300 text-stone-900 rounded-lg py-2 text-sm font-medium transition hover:bg-stone-100" data-temp="85">
+                    Hardkokt<br><span class="text-xs text-stone-500">85 °C</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <span class="text-xs text-stone-500 uppercase tracking-wide mb-2 block">4. Kokemetode</span>
+            <div class="grid grid-cols-2 gap-2">
+                <button class="eggmethod-btn bg-emerald-700 border border-emerald-800 text-white rounded-lg py-2 text-sm font-medium transition shadow-sm" data-method="kjele">
+                    Småkoke i kjele<br><span class="text-xs text-emerald-100">Klassisk</span>
+                </button>
+                <button class="eggmethod-btn bg-stone-50 border border-stone-300 text-stone-900 rounded-lg py-2 text-sm font-medium transition hover:bg-stone-100" data-method="termos">
+                    Trekke i termos<br><span class="text-xs text-stone-500">Onsen-stil</span>
+                </button>
+            </div>
+        </div>
+        
+        <div id="egg-warning" class="hidden mt-4 bg-red-100 border border-red-300 text-red-900 rounded-xl p-3 text-sm shadow-sm flex items-start gap-2 transition-all">
+            <span class="text-lg">🌋</span>
+            <div>
+                <strong>Advarsel!</strong>
+                <span class="block mt-1 text-red-800" id="egg-warning-text">Vannet koker ved for lav temperatur til å oppnå valgt resultat innen rimelig tid.</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Termisk Likevekt Advarsel (Fish only) -->
     <div id="eq-warning" class="hidden bg-amber-100 border border-amber-300 text-amber-900 rounded-xl p-3 mb-4 text-sm shadow-sm flex items-start gap-2 transition-all">
         <span class="text-lg">⚠️</span>
         <div>
@@ -149,7 +223,8 @@
 
     <!-- Call to Action -->
     <button id="btn-cook" class="w-full bg-orange-600 hover:bg-orange-500 text-white font-bold py-5 px-4 rounded-xl shadow-md border border-orange-700 mb-8 transition transform active:scale-95 text-lg leading-tight">
-        KOK OPP TIL ROULERENDE BOBLER →<br>TREKK I <span id="time-display">12.0</span> MINUTTER<br>
+        <span id="cook-action-text">KOK OPP TIL ROULERENDE BOBLER</span> →<br>
+        <span id="cook-method-text">TREKK</span> I <span id="time-display">12.0</span> MINUTTER<br>
         <span class="text-sm font-normal text-orange-100 mt-1 block">START KLOKKA NÅ!</span>
     </button>
 
