@@ -183,12 +183,10 @@ function updatePhysics() {
 // Event Listeners
 modeFisk.addEventListener('click', () => {
     currentMode = 'fisk';
-    modeFisk.classList.replace('bg-stone-50', 'bg-white');
-    modeFisk.classList.replace('text-stone-600', 'text-emerald-800');
-    modeFisk.classList.add('shadow-sm', 'font-bold');
-    modeEgg.classList.replace('bg-white', 'bg-stone-50');
-    modeEgg.classList.replace('text-emerald-800', 'text-stone-600');
-    modeEgg.classList.remove('shadow-sm', 'font-bold');
+    modeFisk.classList.remove('text-stone-600');
+    modeFisk.classList.add('bg-white', 'text-emerald-800', 'shadow-sm', 'font-bold');
+    modeEgg.classList.remove('bg-white', 'text-emerald-800', 'shadow-sm', 'font-bold');
+    modeEgg.classList.add('text-stone-600');
     
     modulB.classList.remove('hidden');
     modulC.classList.remove('hidden');
@@ -199,12 +197,10 @@ modeFisk.addEventListener('click', () => {
 
 modeEgg.addEventListener('click', () => {
     currentMode = 'egg';
-    modeEgg.classList.replace('bg-stone-50', 'bg-white');
-    modeEgg.classList.replace('text-stone-600', 'text-emerald-800');
-    modeEgg.classList.add('shadow-sm', 'font-bold');
-    modeFisk.classList.replace('bg-white', 'bg-stone-50');
-    modeFisk.classList.replace('text-emerald-800', 'text-stone-600');
-    modeFisk.classList.remove('shadow-sm', 'font-bold');
+    modeEgg.classList.remove('text-stone-600');
+    modeEgg.classList.add('bg-white', 'text-emerald-800', 'shadow-sm', 'font-bold');
+    modeFisk.classList.remove('bg-white', 'text-emerald-800', 'shadow-sm', 'font-bold');
+    modeFisk.classList.add('text-stone-600');
     
     modulB.classList.add('hidden');
     modulC.classList.add('hidden');
