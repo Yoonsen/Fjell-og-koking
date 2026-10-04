@@ -15,3 +15,4 @@ Dette dokumentet holder styr på ideer, forbedringer og fysikk-justeringer for f
 ---
 *Har du flere ideer fra feltkontoret? Legg dem til her!*
 - [ ] **Spredningsfaktor:** Legge inn en faktor for hvor tett fisken ligger pakket. Ligger stykkene klistret inntil hverandre, minsker den effektive overflaten, noe som krever lenger trekketid.
+- [ ] **AI-Eyeballing (Maskinsyn):** La brukeren ta et bilde (eller bruke live-kamera) av kjelen. En lokal AI-modell (f.eks. TensorFlow.js) beregner vannstandsendringen og tykkelsen på fisken automatisk – helt offline uten behov for 4G.
